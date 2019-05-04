@@ -89,27 +89,58 @@ Wspolrzedna_Z=tmp_z;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+////////////////////////FUNKCJE ZAPISUJACE PUNKTY DO////////////////////////////////////////////////////
 void zapiszPunkt_1DDoPliku(Punkt_1D punkt)
 {
  fstream plik;
  plik.open("Baza.dat", ios::out|ios::app);
- plik<<punkt.Wspolrzedna_X<<endl;
+ plik<<punkt.Wspolrzedna_X<<" "<<'.'<<" "<<'.'<<'\n';
  plik.close();  
 }
 void zapiszPunkt_2DDoPliku(Punkt_2D punkt)
 {
  fstream plik;
  plik.open("Baza.dat", ios::out|ios::app);
- plik<<punkt.Wspolrzedna_X<<" "<<punkt.Wspolrzedna_Y<<endl;
+  plik<<punkt.Wspolrzedna_X<<" "<<punkt.Wspolrzedna_Y<<" "<<'.'<<'\n';
  plik.close();  
 }
 void zapiszPunkt_3DDoPliku(Punkt_3D punkt)
 {
  fstream plik;
  plik.open("Baza.dat", ios::out|ios::app);
- plik<<punkt.Wspolrzedna_X<<" "<<punkt.Wspolrzedna_Y<<" "<<punkt.Wspolrzedna_Z<<endl;
+ plik<<punkt.Wspolrzedna_X<<" "<<punkt.Wspolrzedna_Y<<" "<<punkt.Wspolrzedna_Z<<'\n';
  plik.close();  
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+bool WczytajPlik()
+{
+    ifstream plik;
+    plik.open("Baza.dat");
+    if( !plik.good() )
+         return false;
+   
+    while( true ) //pętla nieskończona
+    {
+        char OX;
+        char OY;
+        char OZ;
+        
+        plik >> OX>>OY>>OZ;
+ 
+        if( !plik.fail() )
+        {
+	        cout<<"OX: "<<OX<<endl;
+	        cout<<"OY: "<<OY<<endl;
+	        cout<<"OZ: "<<OZ<<endl;
+        }
+        else
+             break; //zakończ wczytywanie danych - wystąpił jakiś błąd (np. nie ma więcej danych w pliku)
+       
+    } //while
+    return true;
 }
 
 
@@ -131,6 +162,8 @@ zapiszPunkt_1DDoPliku(punkt);
 zapiszPunkt_2DDoPliku(punkt2);
 zapiszPunkt_3DDoPliku(punkt3);
 
+if( !WczytajPlik() )
+         std::cout << "Nie udalo sie otworzyc pliku!" << std::endl;
 
 return 0;
 }
