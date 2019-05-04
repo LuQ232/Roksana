@@ -1,5 +1,7 @@
 #include <iostream>
-
+#include <iomanip>
+#include <fstream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -12,6 +14,8 @@ public:
 
 		Punkt_1D ();//KONSTRUKTOR
 		void wypisz();//Wypisanie wspolrzednych 
+		void ZapisWspolrzednychDoPlikuPunkt_1D(ostream&     StrmWy);
+		bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku);
 };
 
 void Punkt_1D::wypisz()
@@ -25,6 +29,28 @@ cout<<"Podaj wspolrzedna 0X: ";
 double tmp_x;
 cin>>tmp_x;
 Wspolrzedna_X=tmp_x;
+}
+
+void Punkt_1D::ZapisWspolrzednychDoPlikuPunkt_1D( ostream&     StrmWy)
+{
+StrmWy<<Wspolrzedna_X<<endl;
+}
+
+bool Punkt_1D::PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku)
+{
+  ofstream  StrmPlikowy;
+
+  StrmPlikowy.open(sNazwaPliku);
+  if (!StrmPlikowy.is_open())  {
+    cerr << ":(  Operacja otwarcia do zapisu \"" << sNazwaPliku << "\"" << endl
+	 << ":(  nie powiodla sie." << endl;
+    return false;
+  }
+
+  ZapisWspolrzednychDoPlikuPunkt_1D(StrmPlikowy);
+
+  StrmPlikowy.close();
+  return !StrmPlikowy.fail();
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,14 +120,52 @@ int main()
 Punkt_1D punkt;
 punkt.wypisz();
 
+Punkt_1D punkt2;
+punkt2.wypisz();
+/*
 Punkt_2D punkt2;
 punkt2.wypisz();
 
 Punkt_3D punkt3;
 punkt3.wypisz();
-
-
+*/
+punkt.PrzykladZapisuWspolrzednychDoPliku("Baza.dat");
+punkt2.PrzykladZapisuWspolrzednychDoPliku("Baza.dat");
 	
 
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+/*
+void PrzykladZapisuWspolrzednychDoStrumienia( ostream&     StrmWy,Prostopadloscian Pr)
+{
+StrmWy<<Pr;
+}
+
+bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku,Prostopadloscian Pr)
+{
+  ofstream  StrmPlikowy;
+
+  StrmPlikowy.open(sNazwaPliku);
+  if (!StrmPlikowy.is_open())  {
+    cerr << ":(  Operacja otwarcia do zapisu \"" << sNazwaPliku << "\"" << endl
+	 << ":(  nie powiodla sie." << endl;
+    return false;
+  }
+
+  PrzykladZapisuWspolrzednychDoStrumienia(StrmPlikowy,Pr);
+
+  StrmPlikowy.close();
+  return !StrmPlikowy.fail();
+}
+*/
