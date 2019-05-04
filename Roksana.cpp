@@ -14,8 +14,8 @@ public:
 
 		Punkt_1D ();//KONSTRUKTOR
 		void wypisz();//Wypisanie wspolrzednych 
-		void ZapisWspolrzednychDoPlikuPunkt_1D(ostream&     StrmWy);
-		bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku);
+		//void ZapisWspolrzednychDoPlikuPunkt_1D(ostream&     StrmWy);
+		//bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku);
 };
 
 void Punkt_1D::wypisz()
@@ -31,27 +31,7 @@ cin>>tmp_x;
 Wspolrzedna_X=tmp_x;
 }
 
-void Punkt_1D::ZapisWspolrzednychDoPlikuPunkt_1D( ostream&     StrmWy)
-{
-StrmWy<<Wspolrzedna_X<<endl;
-}
 
-bool Punkt_1D::PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku)
-{
-  ofstream  StrmPlikowy;
-
-  StrmPlikowy.open(sNazwaPliku);
-  if (!StrmPlikowy.is_open())  {
-    cerr << ":(  Operacja otwarcia do zapisu \"" << sNazwaPliku << "\"" << endl
-	 << ":(  nie powiodla sie." << endl;
-    return false;
-  }
-
-  ZapisWspolrzednychDoPlikuPunkt_1D(StrmPlikowy);
-
-  StrmPlikowy.close();
-  return !StrmPlikowy.fail();
-}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////KLASA PUNKT_2D///////////////////////////////////////////////
@@ -110,7 +90,27 @@ Wspolrzedna_Z=tmp_z;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+void zapiszPunkt_1DDoPliku(Punkt_1D punkt)
+{
+ fstream plik;
+ plik.open("Baza.dat", ios::out|ios::app);
+ plik<<punkt.Wspolrzedna_X<<endl;
+ plik.close();  
+}
+void zapiszPunkt_2DDoPliku(Punkt_2D punkt)
+{
+ fstream plik;
+ plik.open("Baza.dat", ios::out|ios::app);
+ plik<<punkt.Wspolrzedna_X<<" "<<punkt.Wspolrzedna_Y<<endl;
+ plik.close();  
+}
+void zapiszPunkt_3DDoPliku(Punkt_3D punkt)
+{
+ fstream plik;
+ plik.open("Baza.dat", ios::out|ios::app);
+ plik<<punkt.Wspolrzedna_X<<" "<<punkt.Wspolrzedna_Y<<" "<<punkt.Wspolrzedna_Z<<endl;
+ plik.close();  
+}
 
 
 
@@ -120,20 +120,19 @@ int main()
 Punkt_1D punkt;
 punkt.wypisz();
 
-Punkt_1D punkt2;
-punkt2.wypisz();
-/*
+
 Punkt_2D punkt2;
 punkt2.wypisz();
 
 Punkt_3D punkt3;
 punkt3.wypisz();
-*/
-punkt.PrzykladZapisuWspolrzednychDoPliku("Baza.dat");
-punkt2.PrzykladZapisuWspolrzednychDoPliku("Baza.dat");
-	
 
-	return 0;
+zapiszPunkt_1DDoPliku(punkt);
+zapiszPunkt_2DDoPliku(punkt2);
+zapiszPunkt_3DDoPliku(punkt3);
+
+
+return 0;
 }
 
 
